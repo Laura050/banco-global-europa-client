@@ -102,41 +102,28 @@ const App = () => {
   );
 
   const renderContent = () => {
-    if (currentPage === 'login') {
-      return (
-        <div className="max-w-md mx-auto mt-8 p-6 bg-white rounded-lg shadow-md">
-          <h2 className="text-2xl font-bold text-blue-600 mb-6">Iniciar Sesión</h2>
-          <form className="space-y-4" onSubmit={handleLogin}>
-            <div>
-              <label className="block text-sm font-medium text-gray-700">DNI/Pasaporte</label>
-              <input
-                type="text"
-                className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2"
-                value={loginData.dni}
-                onChange={(e) => setLoginData({...loginData, dni: e.target.value})}
-                required
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700">Contraseña</label>
-              <input
-                type="password"
-                className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2"
-                value={loginData.password}
-                onChange={(e) => setLoginData({...loginData, password: e.target.value})}
-                required
-              />
-            </div>
-            <button
-              type="submit"
-              className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700"
-            >
-              Entrar
-            </button>
-          </form>
-        </div>
-      );
-    }
+    if (currentPage === 'adminDashboard') {
+  return (
+    <div className="space-y-6 mt-8">
+      <h2 className="text-2xl font-bold text-blue-600">Panel de Administración</h2>
+      <div className="bg-white rounded-lg shadow-lg">
+        <table className="min-w-full">
+          <thead className="bg-gray-50">
+            <tr>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Nombre</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">DNI</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Estado</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Acciones</th>
+            </tr>
+          </thead>
+          <tbody className="bg-white divide-y divide-gray-200">
+            {/* Table content will be added later */}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+}
     
     if (currentPage === 'register') {
       return (
