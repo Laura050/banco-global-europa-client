@@ -238,6 +238,27 @@ const App = () => {
               <p className="mt-2 text-2xl font-semibold text-blue-600">25.000,00 €</p>
             </div>
           </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <button className="p-6 bg-white rounded-lg shadow-lg border border-gray-200 hover:bg-gray-50 transition-colors">
+              <div className="flex flex-col items-center">
+                <span className="text-2xl font-bold text-blue-600 mb-2">€</span>
+                <h3 className="text-lg font-medium text-gray-900">Realizar una transferencia</h3>
+              </div>
+            </button>
+            <button className="p-6 bg-white rounded-lg shadow-lg border border-gray-200 hover:bg-gray-50 transition-colors">
+              <div className="flex flex-col items-center">
+                <span className="text-2xl font-bold text-blue-600 mb-2">📊</span>
+                <h3 className="text-lg font-medium text-gray-900">Movimiento de cuenta</h3>
+              </div>
+            </button>
+            <button className="p-6 bg-white rounded-lg shadow-lg border border-gray-200 hover:bg-gray-50 transition-colors">
+              <div className="flex flex-col items-center">
+                <span className="text-2xl font-bold text-blue-600 mb-2">💳</span>
+                <h3 className="text-lg font-medium text-gray-900">Tarjeta bancaria</h3>
+              </div>
+            </button>
+          </div>
         </div>
       );
     }
