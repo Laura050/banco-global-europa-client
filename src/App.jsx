@@ -24,54 +24,34 @@ const App = () => {
   });
 
   const handleLogin = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await fetch('https://banco-global-europa.onrender.com/api/auth/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(loginData)
-      });
+  e.preventDefault();
+  try {
+    const response = await fetch('https://banco-global-europa.onrender.com/api/auth/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(loginData)
+    });
 
-      const data = await response.json();
-      if (response.ok) {
-        localStorage.setItem('token', data.token);
-        setIsAuthenticated(true);
+    const data = await response.json();
+    if (response.ok) {
+      localStorage.setItem('token', data.token);
+      setIsAuthenticated(true);
+      // Vérifier si c'est un admin
+      if (loginData.dni === 'admin') {
+        setIsAdmin(true);
+        setCurrentPage('adminDashboard');
+      } else {
         setCurrentPage('dashboard');
-      } else {
-        alert(data.error || 'Error al iniciar sesión');
       }
-    } catch (error) {
-      alert('Error de conexión');
+    } else {
+      alert(data.error || 'Error al iniciar sesión');
     }
-  };
-
-  const handleRegister = async (e) => {
-    e.preventDefault();
-    if (registerData.password !== registerData.confirmPassword) {
-      alert('Las contraseñas no coinciden');
-      return;
-    }
-    try {
-      const response = await fetch('https://banco-global-europa.onrender.com/api/auth/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(registerData)
-      });
-
-      const data = await response.json();
-      if (response.ok) {
-        setCurrentPage('verification');
-      } else {
-        alert(data.error || 'Error en el registro');
-      }
-    } catch (error) {
-      alert('Error de conexión');
-    }
-  };
+  } catch (error) {
+    alert('Error de conexión');
+  }
+};
 
   const Header = () => (
     <header className="bg-white shadow-sm">
