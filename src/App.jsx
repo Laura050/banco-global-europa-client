@@ -4,6 +4,34 @@ const App = () => {
   const [currentPage, setCurrentPage] = useState('login');
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [loginData, setLoginData] = useState({
+    dni: '',
+    password: ''
+  });
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch('https://banco-global-europa.onrender.com/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(loginData)
+      });
+
+      const data = await response.json();
+      if (response.ok) {
+        localStorage.setItem('token', data.token);
+        setIsAuthenticated(true);
+        setCurrentPage('dashboard');
+      } else {
+        alert(data.error || 'Error al iniciar sesión');
+      }
+    } catch (error) {
+      alert('Error de conexión');
+    }
+  };
 
   const Header = () => (
     <header className="bg-white shadow-sm">
@@ -26,6 +54,7 @@ const App = () => {
                 setIsAuthenticated(false);
                 setIsAdmin(false);
                 setCurrentPage('login');
+                localStorage.removeItem('token');
               }}
               className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
             >
@@ -57,12 +86,15 @@ const App = () => {
       return (
         <div className="max-w-md mx-auto mt-8 p-6 bg-white rounded-lg shadow-md">
           <h2 className="text-2xl font-bold text-blue-600 mb-6">Iniciar Sesión</h2>
-          <form className="space-y-4">
+          <form className="space-y-4" onSubmit={handleLogin}>
             <div>
               <label className="block text-sm font-medium text-gray-700">DNI/Pasaporte</label>
               <input
                 type="text"
                 className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2"
+                value={loginData.dni}
+                onChange={(e) => setLoginData({...loginData, dni: e.target.value})}
+                required
               />
             </div>
             <div>
@@ -70,6 +102,9 @@ const App = () => {
               <input
                 type="password"
                 className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2"
+                value={loginData.password}
+                onChange={(e) => setLoginData({...loginData, password: e.target.value})}
+                required
               />
             </div>
             <button
