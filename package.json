@@ -1,6 +1,7 @@
 {
   "name": "banco-global-europa-client",
   "version": "1.0.0",
+  "type": "module",
   "description": "Frontend de la plateforme bancaire numérique",
   "scripts": {
     "dev": "vite",
