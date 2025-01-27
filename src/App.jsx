@@ -320,7 +320,7 @@ const App = () => {
       );
     }
 
-    if (currentPage === 'dashboard') {
+   if (currentPage === 'dashboard') {
       return (
         <div className="space-y-6 mt-8">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -348,4 +348,27 @@ const App = () => {
               </div>
             </button>
             <button className="p-6 bg-white rounded-lg shadow-lg border border-gray-200 hover:bg-gray-50 transition-colors">
-              <div className="flex flex-col items-
+              <div className="flex flex-col items-center">
+                <span className="text-2xl font-bold text-blue-600 mb-2">💳</span>
+                <h3 className="text-lg font-medium text-gray-900">Tarjeta bancaria</h3>
+              </div>
+            </button>
+          </div>
+        </div>
+      );
+    }
+
+    return null;
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-100">
+      <Header />
+      <main className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+        {renderContent()}
+      </main>
+    </div>
+  );
+};
+
+export default App;
