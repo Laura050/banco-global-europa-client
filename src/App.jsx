@@ -119,7 +119,7 @@ const App = () => {
     }
   };
 
-  const handleLogin = async (e) => {
+ const handleLogin = async (e) => {
   e.preventDefault();
   try {
     console.log('Tentative de connexion avec:', loginData);
@@ -144,6 +144,7 @@ const App = () => {
   } catch (error) {
     alert('Error de conexión');
   }
+};
 };
   }
 };
