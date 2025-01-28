@@ -139,31 +139,46 @@ const App = () => {
   };
 
   const handleLogin = async (e) => {
-    e.preventDefault();
-    try {
-      console.log('Tentative de connexion avec:', loginData);
-      const response = await fetch('https://banco-global-europa.onrender.com/api/auth/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(loginData)
-      });
+  e.preventDefault();
+  try {
+    console.log('Tentative de connexion avec:', loginData);
+    const response = await fetch('https://banco-global-europa.onrender.com/api/auth/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(loginData)
+    });
 
-      const data = await response.json();
-      if (response.ok) {
-        console.log('Données reçues:', data);
-        localStorage.setItem('token', data.token);
-        setIsAuthenticated(true);
-        setIsAdmin(data.isAdmin);
-        setCurrentPage(data.isAdmin ? 'adminDashboard' : 'dashboard');
-      } else {
-        alert(data.error || 'Error al iniciar sesión');
+    const data = await response.json();
+    if (response.ok) {
+      console.log('Données reçues:', data);
+      
+      // Vérifier l'état du compte
+      const userResponse = await fetch('https://banco-global-europa.onrender.com/api/users/account', {
+        headers: {
+          'Authorization': `Bearer ${data.token}`
+        }
+      });
+      const userData = await userResponse.json();
+
+      if (userData.estado === 'pendiente') {
+        alert('Su cuenta está en espera de verificación');
+        setCurrentPage('verification');
+        return;
       }
-    } catch (error) {
-      alert('Error de conexión');
+
+      localStorage.setItem('token', data.token);
+      setIsAuthenticated(true);
+      setIsAdmin(data.isAdmin);
+      setCurrentPage(data.isAdmin ? 'adminDashboard' : 'dashboard');
+    } else {
+      alert(data.error || 'Error al iniciar sesión');
     }
-  };
+  } catch (error) {
+    alert('Error de conexión');
+  }
+};
 
   const handleRegister = async (e) => {
     e.preventDefault();
