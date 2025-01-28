@@ -168,6 +168,11 @@ const App = () => {
         return;
       }
 
+      if (userData.estado === 'bloqueado') {
+        alert('Su cuenta está bloqueada. Contacte con el administrador.');
+        return;
+      }
+
       localStorage.setItem('token', data.token);
       setIsAuthenticated(true);
       setIsAdmin(data.isAdmin);
