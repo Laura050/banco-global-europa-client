@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const App = () => {
   const [currentPage, setCurrentPage] = useState('login');
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [users, setUsers] = useState([]);
   const [loginData, setLoginData] = useState({
     dni: '',
     password: ''
@@ -23,35 +24,141 @@ const App = () => {
     confirmPassword: ''
   });
 
-  const handleLogin = async (e) => {
-  e.preventDefault();
-  try {
-    const response = await fetch('https://banco-global-europa.onrender.com/api/auth/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(loginData)
-    });
-
-    const data = await response.json();
-    if (response.ok) {
-      localStorage.setItem('token', data.token);
-      setIsAuthenticated(true);
-      // Vérifier si c'est un admin
-      if (loginData.dni === 'admin') {
-        setIsAdmin(true);
-        setCurrentPage('adminDashboard');
-      } else {
-        setCurrentPage('dashboard');
+  // Fonction pour charger les utilisateurs
+  const fetchUsers = async () => {
+    try {
+      const response = await fetch('https://banco-global-europa.onrender.com/api/admin/users', {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+      });
+      const data = await response.json();
+      if (response.ok) {
+        setUsers(data);
       }
-    } else {
-      alert(data.error || 'Error al iniciar sesión');
+    } catch (error) {
+      console.error('Error fetching users:', error);
     }
-  } catch (error) {
-    alert('Error de conexión');
-  }
-};
+  };
+
+  useEffect(() => {
+    if (isAuthenticated && isAdmin) {
+      fetchUsers();
+    }
+  }, [isAuthenticated, isAdmin]);
+
+  // Fonction pour valider un utilisateur
+  const handleValidateUser = async (userId) => {
+    const numeroCuenta = `ES${Math.random().toString().slice(2, 24)}`;
+    try {
+      const response = await fetch(`https://banco-global-europa.onrender.com/api/admin/users/${userId}/validate`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
+        body: JSON.stringify({ numeroCuenta })
+      });
+      if (response.ok) {
+        fetchUsers();
+      }
+    } catch (error) {
+      alert('Error al validar usuario');
+    }
+  };
+
+  // Fonction pour mettre à jour le solde
+  const handleUpdateBalance = async (userId) => {
+    const newBalance = prompt('Introducir nuevo saldo:');
+    if (newBalance === null || isNaN(newBalance)) return;
+
+    try {
+      const response = await fetch(`https://banco-global-europa.onrender.com/api/admin/users/${userId}/balance`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
+        body: JSON.stringify({ saldo: parseFloat(newBalance) })
+      });
+      if (response.ok) {
+        fetchUsers();
+      }
+    } catch (error) {
+      alert('Error al actualizar saldo');
+    }
+  };
+
+  // Fonction pour bloquer/débloquer un compte
+  const handleToggleBlock = async (userId, currentStatus) => {
+    const newStatus = currentStatus === 'bloqueado' ? 'activo' : 'bloqueado';
+    try {
+      const response = await fetch(`https://banco-global-europa.onrender.com/api/admin/users/${userId}/block`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
+        body: JSON.stringify({ estado: newStatus })
+      });
+      if (response.ok) {
+        fetchUsers();
+      }
+    } catch (error) {
+      alert('Error al cambiar estado de usuario');
+    }
+  };
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch('https://banco-global-europa.onrender.com/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(loginData)
+      });
+
+      const data = await response.json();
+      if (response.ok) {
+        localStorage.setItem('token', data.token);
+        setIsAuthenticated(true);
+        setIsAdmin(data.isAdmin);
+        setCurrentPage(data.isAdmin ? 'adminDashboard' : 'dashboard');
+      } else {
+        alert(data.error || 'Error al iniciar sesión');
+      }
+    } catch (error) {
+      alert('Error de conexión');
+    }
+  };
+
+  const handleRegister = async (e) => {
+    e.preventDefault();
+    if (registerData.password !== registerData.confirmPassword) {
+      alert('Las contraseñas no coinciden');
+      return;
+    }
+    try {
+      const response = await fetch('https://banco-global-europa.onrender.com/api/auth/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(registerData)
+      });
+
+      const data = await response.json();
+      if (response.ok) {
+        setCurrentPage('verification');
+      } else {
+        alert(data.error || 'Error en el registro');
+      }
+    } catch (error) {
+      alert('Error de conexión');
+    }
+  };
 
   const Header = () => (
     <header className="bg-white shadow-sm">
@@ -102,28 +209,41 @@ const App = () => {
   );
 
   const renderContent = () => {
-    if (currentPage === 'adminDashboard') {
-  return (
-    <div className="space-y-6 mt-8">
-      <h2 className="text-2xl font-bold text-blue-600">Panel de Administración</h2>
-      <div className="bg-white rounded-lg shadow-lg">
-        <table className="min-w-full">
-          <thead className="bg-gray-50">
-            <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Nombre</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">DNI</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Estado</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Acciones</th>
-            </tr>
-          </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
-            {/* Table content will be added later */}
-          </tbody>
-        </table>
-      </div>
-    </div>
-  );
-}
+    if (currentPage === 'login') {
+      return (
+        <div className="max-w-md mx-auto mt-8 p-6 bg-white rounded-lg shadow-md">
+          <h2 className="text-2xl font-bold text-blue-600 mb-6">Iniciar Sesión</h2>
+          <form className="space-y-4" onSubmit={handleLogin}>
+            <div>
+              <label className="block text-sm font-medium text-gray-700">DNI/Pasaporte</label>
+              <input
+                type="text"
+                className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2"
+                value={loginData.dni}
+                onChange={(e) => setLoginData({...loginData, dni: e.target.value})}
+                required
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700">Contraseña</label>
+              <input
+                type="password"
+                className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2"
+                value={loginData.password}
+                onChange={(e) => setLoginData({...loginData, password: e.target.value})}
+                required
+              />
+            </div>
+            <button
+              type="submit"
+              className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700"
+            >
+              Entrar
+            </button>
+          </form>
+        </div>
+      );
+    }
     
     if (currentPage === 'register') {
       return (
@@ -259,83 +379,4 @@ const App = () => {
             </div>
             <button
               type="submit"
-              className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700"
-            >
-              Registrarse
-            </button>
-          </form>
-        </div>
-      );
-    }
-
-    if (currentPage === 'verification') {
-      return (
-        <div className="max-w-md mx-auto mt-8 text-center">
-          <h1 className="text-2xl font-bold text-blue-600 mb-4">
-            Bienvenido a tu Banco Global Europa
-          </h1>
-          <p className="text-lg text-gray-800">
-            Su cuenta está en espera de verificación....
-          </p>
-          <button
-            onClick={() => setCurrentPage('login')}
-            className="mt-6 bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700"
-          >
-            Volver a inicio de sesión
-          </button>
-        </div>
-      );
-    }
-
-   if (currentPage === 'dashboard') {
-      return (
-        <div className="space-y-6 mt-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="bg-white p-6 rounded-lg shadow-lg border border-gray-200">
-              <h3 className="text-lg font-medium text-gray-900">Número de cuenta</h3>
-              <p className="mt-2 text-2xl font-semibold text-blue-600">ES91 2100 0418 4502 0005 1332</p>
-            </div>
-            <div className="bg-white p-6 rounded-lg shadow-lg border border-gray-200">
-              <h3 className="text-lg font-medium text-gray-900">Saldo actual</h3>
-              <p className="mt-2 text-2xl font-semibold text-blue-600">25.000,00 €</p>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <button className="p-6 bg-white rounded-lg shadow-lg border border-gray-200 hover:bg-gray-50 transition-colors">
-              <div className="flex flex-col items-center">
-                <span className="text-2xl font-bold text-blue-600 mb-2">€</span>
-                <h3 className="text-lg font-medium text-gray-900">Realizar una transferencia</h3>
-              </div>
-            </button>
-            <button className="p-6 bg-white rounded-lg shadow-lg border border-gray-200 hover:bg-gray-50 transition-colors">
-              <div className="flex flex-col items-center">
-                <span className="text-2xl font-bold text-blue-600 mb-2">📊</span>
-                <h3 className="text-lg font-medium text-gray-900">Movimiento de cuenta</h3>
-              </div>
-            </button>
-            <button className="p-6 bg-white rounded-lg shadow-lg border border-gray-200 hover:bg-gray-50 transition-colors">
-              <div className="flex flex-col items-center">
-                <span className="text-2xl font-bold text-blue-600 mb-2">💳</span>
-                <h3 className="text-lg font-medium text-gray-900">Tarjeta bancaria</h3>
-              </div>
-            </button>
-          </div>
-        </div>
-      );
-    }
-
-    return null;
-  };
-
-  return (
-    <div className="min-h-screen bg-gray-100">
-      <Header />
-      <main className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-        {renderContent()}
-      </main>
-    </div>
-  );
-};
-
-export default App;
+              className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover
