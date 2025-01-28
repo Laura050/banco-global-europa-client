@@ -49,23 +49,33 @@ const App = () => {
 
   // Fonction pour valider un utilisateur
   const handleValidateUser = async (userId) => {
-    const numeroCuenta = `ES${Math.random().toString().slice(2, 24)}`;
-    try {
-      const response = await fetch(`https://banco-global-europa.onrender.com/api/admin/users/${userId}/validate`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
-        },
-        body: JSON.stringify({ numeroCuenta })
-      });
-      if (response.ok) {
-        fetchUsers();
-      }
-    } catch (error) {
+  const numeroCuenta = prompt('Introducir número de cuenta (formato: ESXX XXXX XXXX XXXX XXXX XXXX):');
+  if (!numeroCuenta) return;
+
+  // Validation basique du format
+  if (!numeroCuenta.startsWith('ES')) {
+    alert('El número de cuenta debe empezar por ES');
+    return;
+  }
+
+  try {
+    const response = await fetch(`https://banco-global-europa.onrender.com/api/admin/users/${userId}/validate`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      },
+      body: JSON.stringify({ numeroCuenta })
+    });
+    if (response.ok) {
+      fetchUsers();
+    } else {
       alert('Error al validar usuario');
     }
-  };
+  } catch (error) {
+    alert('Error de conexión');
+  }
+};
 
   // Fonction pour mettre à jour le solde
   const handleUpdateBalance = async (userId) => {
