@@ -184,7 +184,6 @@ const App = () => {
     alert('Error de conexión');
   }
 };
-
   const handleRegister = async (e) => {
     e.preventDefault();
     if (registerData.password !== registerData.confirmPassword) {
