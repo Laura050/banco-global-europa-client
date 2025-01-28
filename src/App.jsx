@@ -151,25 +151,16 @@ const App = () => {
     });
 
     const data = await response.json();
+    
     if (response.ok) {
-      console.log('Données reçues:', data);
-      
-      // Vérifier l'état du compte
-      const userResponse = await fetch('https://banco-global-europa.onrender.com/api/users/account', {
-        headers: {
-          'Authorization': `Bearer ${data.token}`
-        }
-      });
-      const userData = await userResponse.json();
-
-      if (userData.estado === 'pendiente') {
-        alert('Su cuenta está en espera de verificación');
-        setCurrentPage('verification');
+      if (data.estado === 'bloqueado') {
+        alert('Su cuenta está bloqueada. Contacte con el administrador.');
         return;
       }
 
-      if (userData.estado === 'bloqueado') {
-        alert('Su cuenta está bloqueada. Contacte con el administrador.');
+      if (data.estado === 'pendiente') {
+        alert('Su cuenta está en espera de verificación');
+        setCurrentPage('verification');
         return;
       }
 
@@ -178,7 +169,14 @@ const App = () => {
       setIsAdmin(data.isAdmin);
       setCurrentPage(data.isAdmin ? 'adminDashboard' : 'dashboard');
     } else {
-      alert(data.error || 'Error al iniciar sesión');
+      if (data.estado === 'bloqueado') {
+        alert('Su cuenta está bloqueada. Contacte con el administrador.');
+      } else if (data.estado === 'pendiente') {
+        alert('Su cuenta está en espera de verificación');
+        setCurrentPage('verification');
+      } else {
+        alert(data.error || 'Error al iniciar sesión');
+      }
     }
   } catch (error) {
     alert('Error de conexión');
