@@ -521,58 +521,124 @@ const App = () => {
     }
 
     if (currentPage === 'dashboard') {
-      return (
-        <div className="space-y-6 mt-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="bg-white p-6 rounded-lg shadow-lg border border-gray-200">
-              <h3 className="text-lg font-medium text-gray-900">Número de cuenta</h3>
-              <p className="mt-2 text-2xl font-semibold text-blue-600">
-                {userData?.numeroCuenta || 'No asignado'}
-              </p>
-            </div>
-            <div className="bg-white p-6 rounded-lg shadow-lg border border-gray-200">
-              <h3 className="text-lg font-medium text-gray-900">Saldo actual</h3>
-              <p className="mt-2 text-2xl font-semibold text-blue-600">
-                {userData?.saldo ? `${userData.saldo.toFixed(2)} €` : '0.00 €'}
-              </p>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <button className="p-6 bg-white rounded-lg shadow-lg border border-gray-200 hover:bg-gray-50 transition-colors">
-              <div className="flex flex-col items-center">
-                <span className="text-2xl font-bold text-blue-600 mb-2">€</span>
-                <h3 className="text-lg font-medium text-gray-900">Realizar una transferencia</h3>
-              </div>
-            </button>
-            <button className="p-6 bg-white rounded-lg shadow-lg border border-gray-200 hover:bg-gray-50 transition-colors">
-              <div className="flex flex-col items-center">
-                <span className="text-2xl font-bold text-blue-600 mb-2">📊</span>
-                <h3 className="text-lg font-medium text-gray-900">Movimiento de cuenta</h3>
-              </div>
-            </button>
-            <button className="p-6 bg-white rounded-lg shadow-lg border border-gray-200 hover:bg-gray-50 transition-colors">
-              <div className="flex flex-col items-center">
-                <span className="text-2xl font-bold text-blue-600 mb-2">💳</span>
-                <h3 className="text-lg font-medium text-gray-900">Tarjeta bancaria</h3>
-              </div>
-            </button>
-          </div>
-        </div>
-      );
-    }
-
-    return null;
-  };
-
   return (
-    <div className="min-h-screen bg-gray-100">
-      <Header />
-      <main className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-        {renderContent()}
-      </main>
+    <div className="space-y-6 mt-8">
+      {/* Informations du compte */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="bg-white p-6 rounded-lg shadow-lg border border-gray-200">
+          <h3 className="text-lg font-medium text-gray-900">Número de cuenta</h3>
+          <p className="mt-2 text-2xl font-semibold text-blue-600">
+            {userData?.numeroCuenta || 'No asignado'}
+          </p>
+        </div>
+        <div className="bg-white p-6 rounded-lg shadow-lg border border-gray-200">
+          <h3 className="text-lg font-medium text-gray-900">Saldo actual</h3>
+          <p className="mt-2 text-2xl font-semibold text-blue-600">
+            {userData?.saldo ? `${userData.saldo.toFixed(2)} €` : '0.00 €'}
+          </p>
+        </div>
+      </div>
+
+      {/* Grille de boutons */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        {/* Opérations de base */}
+        <button className="p-4 bg-white rounded-lg shadow-lg border border-gray-200 hover:bg-gray-50 transition-colors">
+          <div className="flex flex-col items-center">
+            <span className="text-2xl font-bold text-blue-600 mb-2">💸</span>
+            <h3 className="text-sm font-medium text-gray-900">Realizar una transferencia</h3>
+          </div>
+        </button>
+        <button className="p-4 bg-white rounded-lg shadow-lg border border-gray-200 hover:bg-gray-50 transition-colors">
+          <div className="flex flex-col items-center">
+            <span className="text-2xl font-bold text-blue-600 mb-2">📊</span>
+            <h3 className="text-sm font-medium text-gray-900">Movimientos</h3>
+          </div>
+        </button>
+        <button className="p-4 bg-white rounded-lg shadow-lg border border-gray-200 hover:bg-gray-50 transition-colors">
+          <div className="flex flex-col items-center">
+            <span className="text-2xl font-bold text-blue-600 mb-2">💳</span>
+            <h3 className="text-sm font-medium text-gray-900">Tarjeta bancaria</h3>
+          </div>
+        </button>
+        <button className="p-4 bg-white rounded-lg shadow-lg border border-gray-200 hover:bg-gray-50 transition-colors">
+          <div className="flex flex-col items-center">
+            <span className="text-2xl font-bold text-blue-600 mb-2">👤</span>
+            <h3 className="text-sm font-medium text-gray-900">Gestión de perfil</h3>
+          </div>
+        </button>
+        <button className="p-4 bg-white rounded-lg shadow-lg border border-gray-200 hover:bg-gray-50 transition-colors">
+          <div className="flex flex-col items-center">
+            <span className="text-2xl font-bold text-blue-600 mb-2">📱</span>
+            <h3 className="text-sm font-medium text-gray-900">Recarga móvil</h3>
+          </div>
+        </button>
+        <button className="p-4 bg-white rounded-lg shadow-lg border border-gray-200 hover:bg-gray-50 transition-colors">
+          <div className="flex flex-col items-center">
+            <span className="text-2xl font-bold text-blue-600 mb-2">📄</span>
+            <h3 className="text-sm font-medium text-gray-900">Estados de cuenta</h3>
+          </div>
+        </button>
+        <button className="p-4 bg-white rounded-lg shadow-lg border border-gray-200 hover:bg-gray-50 transition-colors">
+          <div className="flex flex-col items-center">
+            <span className="text-2xl font-bold text-blue-600 mb-2">🔒</span>
+            <h3 className="text-sm font-medium text-gray-900">Seguridad</h3>
+          </div>
+        </button>
+        <button className="p-4 bg-white rounded-lg shadow-lg border border-gray-200 hover:bg-gray-50 transition-colors">
+          <div className="flex flex-col items-center">
+            <span className="text-2xl font-bold text-blue-600 mb-2">📝</span>
+            <h3 className="text-sm font-medium text-gray-900">Documentos</h3>
+          </div>
+        </button>
+        <button className="p-4 bg-white rounded-lg shadow-lg border border-gray-200 hover:bg-gray-50 transition-colors">
+          <div className="flex flex-col items-center">
+            <span className="text-2xl font-bold text-blue-600 mb-2">🏦</span>
+            <h3 className="text-sm font-medium text-gray-900">Administración de patrimonio</h3>
+          </div>
+        </button>
+        <button className="p-4 bg-white rounded-lg shadow-lg border border-gray-200 hover:bg-gray-50 transition-colors">
+          <div className="flex flex-col items-center">
+            <span className="text-2xl font-bold text-blue-600 mb-2">💰</span>
+            <h3 className="text-sm font-medium text-gray-900">Solicitud de crédito</h3>
+          </div>
+        </button>
+        <button className="p-4 bg-white rounded-lg shadow-lg border border-gray-200 hover:bg-gray-50 transition-colors">
+          <div className="flex flex-col items-center">
+            <span className="text-2xl font-bold text-blue-600 mb-2">✓</span>
+            <h3 className="text-sm font-medium text-gray-900">Depositar un cheque</h3>
+          </div>
+        </button>
+        <button className="p-4 bg-white rounded-lg shadow-lg border border-gray-200 hover:bg-gray-50 transition-colors">
+          <div className="flex flex-col items-center">
+            <span className="text-2xl font-bold text-blue-600 mb-2">📑</span>
+            <h3 className="text-sm font-medium text-gray-900">Pagar facturas</h3>
+          </div>
+        </button>
+        <button className="p-4 bg-white rounded-lg shadow-lg border border-gray-200 hover:bg-gray-50 transition-colors">
+          <div className="flex flex-col items-center">
+            <span className="text-2xl font-bold text-blue-600 mb-2">🔔</span>
+            <h3 className="text-sm font-medium text-gray-900">Notificaciones</h3>
+          </div>
+        </button>
+        <button className="p-4 bg-white rounded-lg shadow-lg border border-gray-200 hover:bg-gray-50 transition-colors">
+          <div className="flex flex-col items-center">
+            <span className="text-2xl font-bold text-blue-600 mb-2">🛡️</span>
+            <h3 className="text-sm font-medium text-gray-900">Seguros</h3>
+          </div>
+        </button>
+        <button className="p-4 bg-white rounded-lg shadow-lg border border-gray-200 hover:bg-gray-50 transition-colors">
+          <div className="flex flex-col items-center">
+            <span className="text-2xl font-bold text-blue-600 mb-2">📈</span>
+            <h3 className="text-sm font-medium text-gray-900">Inversiones</h3>
+          </div>
+        </button>
+        <button className="p-4 bg-white rounded-lg shadow-lg border border-gray-200 hover:bg-gray-50 transition-colors">
+          <div className="flex flex-col items-center">
+            <span className="text-2xl font-bold text-blue-600 mb-2">💡</span>
+            <h3 className="text-sm font-medium text-gray-900">Asesoramiento</h3>
+          </div>
+        </button>
+      </div>
     </div>
   );
-};
-
-export default App;
+}
