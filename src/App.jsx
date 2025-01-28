@@ -379,4 +379,148 @@ const App = () => {
             </div>
             <button
               type="submit"
-              className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover
+              className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700"
+            >
+              Registrarse
+            </button>
+          </form>
+        </div>
+      );
+    }
+
+    if (currentPage === 'verification') {
+      return (
+        <div className="max-w-md mx-auto mt-8 text-center">
+          <h1 className="text-2xl font-bold text-blue-600 mb-4">
+            Bienvenido a tu Banco Global Europa
+          </h1>
+          <p className="text-lg text-gray-800">
+            Su cuenta está en espera de verificación....
+          </p>
+          <button
+            onClick={() => setCurrentPage('login')}
+            className="mt-6 bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700"
+          >
+            Volver a inicio de sesión
+          </button>
+        </div>
+      );
+    }
+
+    if (currentPage === 'adminDashboard') {
+      return (
+        <div className="space-y-6 mt-8">
+          <h2 className="text-2xl font-bold text-blue-600">Panel de Administración</h2>
+          <div className="bg-white rounded-lg shadow-lg overflow-hidden">
+            <table className="min-w-full">
+              <thead className="bg-gray-50">
+                <tr>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Nombre</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">DNI</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Número de cuenta</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Saldo</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Estado</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Acciones</th>
+                </tr>
+              </thead>
+              <tbody className="bg-white divide-y divide-gray-200">
+                {users.map((user) => (
+                  <tr key={user._id}>
+                    <td className="px-6 py-4 whitespace-nowrap">{user.nombre} {user.apellidos}</td>
+                    <td className="px-6 py-4 whitespace-nowrap">{user.dni}</td>
+                    <td className="px-6 py-4 whitespace-nowrap">{user.numeroCuenta || 'No asignado'}</td>
+                    <td className="px-6 py-4 whitespace-nowrap">{user.saldo ? `${user.saldo.toFixed(2)} €` : '0.00 €'}</td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <span className={`px-2 py-1 text-xs font-semibold rounded-full ${
+                        user.estado === 'activo' ? 'bg-green-100 text-green-800' :
+                        user.estado === 'pendiente' ? 'bg-yellow-100 text-yellow-800' :
+                        'bg-red-100 text-red-800'
+                      }`}>
+                        {user.estado.charAt(0).toUpperCase() + user.estado.slice(1)}
+                      </span>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      {user.estado === 'pendiente' && (
+                        <button
+                          onClick={() => handleValidateUser(user._id)}
+                          className="text-green-600 hover:text-green-900 mr-2"
+                        >
+                          Validar
+                        </button>
+                      )}
+                      <button
+                        onClick={() => handleUpdateBalance(user._id)}
+                        className="text-blue-600 hover:text-blue-900 mr-2"
+                      >
+                        Actualizar saldo
+                      </button>
+                      <button
+                        onClick={() => handleToggleBlock(user._id, user.estado)}
+                        className={user.estado === 'bloqueado' ? 
+                          'text-green-600 hover:text-green-900' : 
+                          'text-red-600 hover:text-red-900'}
+                      >
+                        {user.estado === 'bloqueado' ? 'Desbloquear' : 'Bloquear'}
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      );
+    }
+
+    if (currentPage === 'dashboard') {
+      return (
+        <div className="space-y-6 mt-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="bg-white p-6 rounded-lg shadow-lg border border-gray-200">
+              <h3 className="text-lg font-medium text-gray-900">Número de cuenta</h3>
+              <p className="mt-2 text-2xl font-semibold text-blue-600">ES91 2100 0418 4502 0005 1332</p>
+            </div>
+            <div className="bg-white p-6 rounded-lg shadow-lg border border-gray-200">
+              <h3 className="text-lg font-medium text-gray-900">Saldo actual</h3>
+              <p className="mt-2 text-2xl font-semibold text-blue-600">25.000,00 €</p>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <button className="p-6 bg-white rounded-lg shadow-lg border border-gray-200 hover:bg-gray-50 transition-colors">
+              <div className="flex flex-col items-center">
+                <span className="text-2xl font-bold text-blue-600 mb-2">€</span>
+                <h3 className="text-lg font-medium text-gray-900">Realizar una transferencia</h3>
+              </div>
+            </button>
+            <button className="p-6 bg-white rounded-lg shadow-lg border border-gray-200 hover:bg-gray-50 transition-colors">
+              <div className="flex flex-col items-center">
+                <span className="text-2xl font-bold text-blue-600 mb-2">📊</span>
+                <h3 className="text-lg font-medium text-gray-900">Movimiento de cuenta</h3>
+              </div>
+            </button>
+            <button className="p-6 bg-white rounded-lg shadow-lg border border-gray-200 hover:bg-gray-50 transition-colors">
+              <div className="flex flex-col items-center">
+                <span className="text-2xl font-bold text-blue-600 mb-2">💳</span>
+                <h3 className="text-lg font-medium text-gray-900">Tarjeta bancaria</h3>
+              </div>
+            </button>
+          </div>
+        </div>
+      );
+    }
+
+    return null;
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-100">
+      <Header />
+      <main className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+        {renderContent()}
+      </main>
+    </div>
+  );
+};
+
+export default App;
