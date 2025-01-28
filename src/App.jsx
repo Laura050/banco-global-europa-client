@@ -120,29 +120,31 @@ const App = () => {
   };
 
   const handleLogin = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await fetch('https://banco-global-europa.onrender.com/api/auth/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(loginData)
-      });
+  e.preventDefault();
+  try {
+    console.log('Tentative de connexion avec:', loginData);
+    const response = await fetch('https://banco-global-europa.onrender.com/api/auth/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(loginData)
+    });
 
-      const data = await response.json();
-      if (response.ok) {
-        localStorage.setItem('token', data.token);
-        setIsAuthenticated(true);
-        setIsAdmin(data.isAdmin);
-        setCurrentPage(data.isAdmin ? 'adminDashboard' : 'dashboard');
-      } else {
-        alert(data.error || 'Error al iniciar sesión');
-      }
-    } catch (error) {
-      alert('Error de conexión');
+    const data = await response.json();
+    if (response.ok) {
+      console.log('Données reçues:', data);
+      localStorage.setItem('token', data.token);
+      setIsAuthenticated(true);
+      setIsAdmin(data.isAdmin);
+      setCurrentPage(data.isAdmin ? 'adminDashboard' : 'dashboard');
+    } else {
+      alert(data.error || 'Error al iniciar sesión');
     }
-  };
+  } catch (error) {
+    alert('Error de conexión');
+  }
+};
 
   const handleRegister = async (e) => {
     e.preventDefault();
