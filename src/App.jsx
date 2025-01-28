@@ -639,6 +639,21 @@ const App = () => {
           </div>
         </button>
       </div>
-    </div>
+   </div>
   );
 }
+
+return null;
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-100">
+      <Header />
+      <main className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+        {renderContent()}
+      </main>
+    </div>
+  );
+};
+
+export default App;
