@@ -26,6 +26,22 @@ const App = () => {
     confirmPassword: ''
   });
 
+  const handleLogout = () => {
+    if (window.confirm('¿Está seguro que desea cerrar sesión?')) {
+      setIsAuthenticated(false);
+      setIsAdmin(false);
+      setCurrentPage('login');
+      setLoginData({
+        dni: '',
+        password: ''
+      });
+      setUserData(null);
+      setUsers([]);
+      localStorage.removeItem('token');
+      alert('Sesión cerrada con éxito');
+    }
+  };
+
   const fetchUserData = async () => {
     try {
       const response = await fetch('https://banco-global-europa.onrender.com/api/users/account', {
@@ -234,12 +250,7 @@ const App = () => {
         <nav>
           {isAuthenticated ? (
             <button
-              onClick={() => {
-                setIsAuthenticated(false);
-                setIsAdmin(false);
-                setCurrentPage('login');
-                localStorage.removeItem('token');
-              }}
+              onClick={handleLogout}
               className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
             >
               Cerrar sesión
@@ -264,7 +275,7 @@ const App = () => {
       </div>
     </header>
   );
-const renderContent = () => {
+  const renderContent = () => {
     if (currentPage === 'login') {
       return (
         <div className="max-w-md mx-auto mt-8 p-6 bg-white rounded-lg shadow-md">
@@ -575,67 +586,4 @@ const renderContent = () => {
     if (currentPage === 'dashboard') {
       return (
         <div className="space-y-6 mt-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="bg-white p-6 rounded-lg shadow-lg border border-gray-200">
-              <h3 className="text-lg font-medium text-gray-900">Número de cuenta</h3>
-              <p className="mt-2 text-2xl font-semibold text-blue-600">
-                {userData?.numeroCuenta || 'No asignado'}
-              </p>
-            </div>
-            <div className="bg-white p-6 rounded-lg shadow-lg border border-gray-200">
-              <h3 className="text-lg font-medium text-gray-900">Saldo actual</h3>
-              <p className="mt-2 text-2xl font-semibold text-blue-600">
-                {userData?.saldo ? `${userData.saldo.toFixed(2)} €` : '0.00 €'}
-              </p>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {/* Grid des boutons virtuels */}
-            {[
-              { icon: '€', text: 'Realizar una transferencia' },
-              { icon: '📊', text: 'Movimientos' },
-              { icon: '💳', text: 'Tarjeta bancaria' },
-              { icon: '👤', text: 'Gestión de perfil' },
-              { icon: '📱', text: 'Recarga móvil' },
-              { icon: '📄', text: 'Estados de cuenta' },
-              { icon: '🔒', text: 'Seguridad' },
-              { icon: '📝', text: 'Documentos' },
-              { icon: '🏦', text: 'Administración de patrimonio' },
-              { icon: '💰', text: 'Solicitud de crédito' },
-              { icon: '✓', text: 'Depositar un cheque' },
-              { icon: '📑', text: 'Pagar facturas' },
-              { icon: '🔔', text: 'Notificaciones' },
-              { icon: '🛡️', text: 'Seguros' },
-              { icon: '📈', text: 'Inversiones' },
-              { icon: '💡', text: 'Asesoramiento' }
-            ].map((button, index) => (
-              <button 
-                key={index}
-                className="p-4 bg-white rounded-lg shadow-lg border border-gray-200 hover:bg-gray-50 transition-colors"
-              >
-                <div className="flex flex-col items-center">
-                  <span className="text-2xl font-bold text-blue-600 mb-2">{button.icon}</span>
-                  <h3 className="text-sm font-medium text-gray-900 text-center">{button.text}</h3>
-                </div>
-              </button>
-            ))}
-          </div>
-        </div>
-      );
-    }
-
-    return null;
-  };
-
-  return (
-    <div className="min-h-screen bg-gray-100">
-      <Header />
-      <main className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-        {renderContent()}
-      </main>
-    </div>
-  );
-};
-
-export default App;
+          <div className="
