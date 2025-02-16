@@ -242,52 +242,47 @@ const handleLogout = () => {
   };
 
   const Header = () => (
-    <header className="bg-white shadow-sm">
-      <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
-        <div className="flex items-center">
-          <svg className="w-16 h-16" viewBox="0 0 400 300">
-            <path d="M50 150 A150 150 0 0 1 350 150" stroke="red" strokeWidth="20" fill="none"/>
-            <line x1="50" y1="180" x2="350" y2="180" stroke="red" strokeWidth="20"/>
-            <line x1="75" y1="210" x2="325" y2="210" stroke="red" strokeWidth="20"/>
-            <line x1="100" y1="240" x2="300" y2="240" stroke="red" strokeWidth="20"/>
-            <text x="200" y="140" fontSize="48" fill="red" textAnchor="middle" fontWeight="bold">BGE</text>
-          </svg>
-          <span className="ml-3 text-xl font-bold text-blue-600">Banco Global Europa</span>
-        </div>
-        
-        <nav>
-          {isAuthenticated ? (
-            <button
-              onClick={() => {
-                setIsAuthenticated(false);
-                setIsAdmin(false);
-                setCurrentPage('login');
-                localStorage.removeItem('token');
-              }}
-              className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
-            >
-              Cerrar sesión
-            </button>
-          ) : (
-            <div className="space-x-4">
-              <button
-                onClick={() => setCurrentPage('login')}
-                className="text-blue-600 hover:text-blue-800"
-              >
-                Iniciar sesión
-              </button>
-              <button
-                onClick={() => setCurrentPage('register')}
-                className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-              >
-                Registrarse
-              </button>
-            </div>
-          )}
-        </nav>
+  <header className="bg-white shadow-sm">
+    <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+      <div className="flex items-center">
+        <svg className="w-16 h-16" viewBox="0 0 400 300">
+          <path d="M50 150 A150 150 0 0 1 350 150" stroke="red" strokeWidth="20" fill="none"/>
+          <line x1="50" y1="180" x2="350" y2="180" stroke="red" strokeWidth="20"/>
+          <line x1="75" y1="210" x2="325" y2="210" stroke="red" strokeWidth="20"/>
+          <line x1="100" y1="240" x2="300" y2="240" stroke="red" strokeWidth="20"/>
+          <text x="200" y="140" fontSize="48" fill="red" textAnchor="middle" fontWeight="bold">BGE</text>
+        </svg>
+        <span className="ml-3 text-xl font-bold text-blue-600">Banco Global Europa</span>
       </div>
-    </header>
-  );
+      
+      <nav>
+        {isAuthenticated ? (
+          <button
+            onClick={handleLogout}
+            className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
+          >
+            Cerrar sesión
+          </button>
+        ) : (
+          <div className="space-x-4">
+            <button
+              onClick={() => setCurrentPage('login')}
+              className="text-blue-600 hover:text-blue-800"
+            >
+              Iniciar sesión
+            </button>
+            <button
+              onClick={() => setCurrentPage('register')}
+              className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+            >
+              Registrarse
+            </button>
+          </div>
+        )}
+      </nav>
+    </div>
+  </header>
+);
 const renderContent = () => {
     if (currentPage === 'login') {
       return (
