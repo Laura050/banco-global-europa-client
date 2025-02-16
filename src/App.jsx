@@ -39,7 +39,6 @@ const handleLogout = () => {
     setUserData(null);
     setUsers([]);
     localStorage.removeItem('token');
-    alert('Sesión cerrada con éxito');
   }
 };
 
