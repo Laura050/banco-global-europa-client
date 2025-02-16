@@ -25,7 +25,31 @@ const App = () => {
     password: '',
     confirmPassword: ''
   });
+// Au début du composant App, ajoutez cette fonction
+const handleLogout = () => {
+  if (window.confirm('¿Está seguro que desea cerrar sesión?')) {
+    // Réinitialiser toutes les données
+    setIsAuthenticated(false);
+    setIsAdmin(false);
+    setCurrentPage('login');
+    setLoginData({
+      dni: '',
+      password: ''
+    });
+    setUserData(null);
+    setUsers([]);
+    localStorage.removeItem('token');
+    alert('Sesión cerrada con éxito');
+  }
+};
 
+// Modifiez le bouton de déconnexion dans le composant Header
+<button
+  onClick={handleLogout}
+  className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
+>
+  Cerrar sesión
+</button>
   const fetchUserData = async () => {
     try {
       const response = await fetch('https://banco-global-europa.onrender.com/api/users/account', {
