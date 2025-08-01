@@ -412,6 +412,10 @@ const renderContent = () => {
                   <option value="Alemania">Alemania</option>
                   <option value="Italia">Italia</option>
                   <option value="Portugal">Portugal</option>
+                  <option value="Peru">Peru</option>
+<option value="El Salvador">El Salvador</option>
+<option value="Panamá">Panamá</option>
+<option value="Puerto Rico">Puerto Rico</option>
                 </select>
               </div>
               <div>
