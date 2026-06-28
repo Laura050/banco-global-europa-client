@@ -337,178 +337,194 @@ const renderContent = () => {
     }
     
     if (currentPage === 'register') {
-      return (
-        <div className="max-w-2xl mx-auto mt-8 p-6 bg-white rounded-lg shadow-md">
-          <h2 className="text-2xl font-bold text-blue-600 mb-6">Registro</h2>
-          <form className="space-y-4" onSubmit={handleRegister}>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700">Nombre</label>
-                <input
-                  type="text"
-                  className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2"
-                  value={registerData.nombre}
-                  onChange={(e) => setRegisterData({...registerData, nombre: e.target.value})}
-                  required
-                  disabled={isLoading}
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700">Apellidos</label>
-                <input
-                  type="text"
-                  className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2"
-                  value={registerData.apellidos}
-                  onChange={(e) => setRegisterData({...registerData, apellidos: e.target.value})}
-                  required
-                  disabled={isLoading}
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700">Teléfono</label>
-                <input
-                  type="tel"
-                  className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2"
-                  value={registerData.telefono}
-                  onChange={(e) => setRegisterData({...registerData, telefono: e.target.value})}
-                  required
-                  disabled={isLoading}
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700">Correo electrónico</label>
-                <input
-                  type="email"
-                  className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2"
-                  value={registerData.email}
-                  onChange={(e) => setRegisterData({...registerData, email: e.target.value})}
-                  required
-                  disabled={isLoading}
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700">Número DNI o Pasaporte</label>
-                <input
-                  type="text"
-                  className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2"
-                  value={registerData.dni}
-                  onChange={(e) => setRegisterData({...registerData, dni: e.target.value})}
-                  required
-                  disabled={isLoading}
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700">País</label>
-                <select 
-                  className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2"
-                  value={registerData.pais}
-                  onChange={(e) => setRegisterData({...registerData, pais: e.target.value})}
-                  required
-                  disabled={isLoading}
-                >
-                  <option value="">Seleccionar país</option>
-                  <option value="España">España</option>
-                  <option value="Francia">Francia</option>
-                  <option value="Alemania">Alemania</option>
-                  <option value="Italia">Italia</option>
-                  <option value="Portugal">Portugal</option>
-                  <option value="Peru">Peru</option>
-<option value="El Salvador">El Salvador</option>
-<option value="Panamá">Panamá</option>
-<option value="Puerto Rico">Puerto Rico</option>
-                </select>
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700">Ciudad</label>
-                <input
-                  type="text"
-                  className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2"
-                  value={registerData.ciudad}
-                  onChange={(e) => setRegisterData({...registerData, ciudad: e.target.value})}
-                  required
-                  disabled={isLoading}
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700">Código Postal</label>
-                <input
-                  type="text"
-                  className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2"
-                  value={registerData.codigoPostal}
-                  onChange={(e) => setRegisterData({...registerData, codigoPostal: e.target.value})}
-                  required
-                  disabled={isLoading}
-                />
-              </div>
-              <div className="md:col-span-2">
-                <label className="block text-sm font-medium text-gray-700">Domicilio</label>
-                <input
-                  type="text"
-                  className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2"
-                  value={registerData.domicilio}
-                  onChange={(e) => setRegisterData({...registerData, domicilio: e.target.value})}
-                  required
-                  disabled={isLoading}
-                />
-              </div>
-              <div className="md:col-span-2">
-                <label className="block text-sm font-medium text-gray-700">Descargar DNI o Pasaporte</label>
-                <input
-                  type="file"
-                  accept=".pdf,.jpg,.jpeg,.png"
-                  className="mt-1 block w-full"
-                  required
-                  disabled={isLoading}
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700">Contraseña</label>
-                <input
-                  type="password"
-                  className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2"
-                  value={registerData.password}
-                  onChange={(e) => setRegisterData({...registerData, password: e.target.value})}
-                  required
-                  disabled={isLoading}
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700">Confirmación de contraseña</label>
-                <input
-                  type="password"
-                  className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2"
-                  value={registerData.confirmPassword}
-                  onChange={(e) => setRegisterData({...registerData, confirmPassword: e.target.value})}
-                  required
-                  disabled={isLoading}
-                />
-              </div>
-            </div>
-            <button
-              type="submit"
-              disabled={isLoading}
-              className={`w-full py-2 px-4 rounded-md ${
-                isLoading 
-                ? 'bg-gray-400 cursor-not-allowed' 
-                : 'bg-blue-600 hover:bg-blue-700 text-white'
-              }`}
-            >
-              {isLoading ? (
-                <div className="flex items-center justify-center">
-                  <svg className="animate-spin h-5 w-5 mr-3" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"/>
-                  </svg>
-                  Procesando...
-                </div>
-              ) : (
-                'Registrarse'
-              )}
-            </button>
-          </form>
-        </div>
-      );
-    }
+      return (
+        <div className="max-w-2xl mx-auto mt-8 p-6 bg-white rounded-lg shadow-md">
+          <h2 className="text-2xl font-bold text-blue-600 mb-6">Registro</h2>
+          <form className="space-y-4" onSubmit={handleRegister}>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700">Nombre</label>
+                <input
+                  type="text"
+                  className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2"
+                  value={registerData.nombre}
+                  onChange={(e) => setRegisterData({...registerData, nombre: e.target.value})}
+                  required
+                  disabled={isLoading}
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700">Apellidos</label>
+                <input
+                  type="text"
+                  className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2"
+                  value={registerData.apellidos}
+                  onChange={(e) => setRegisterData({...registerData, apellidos: e.target.value})}
+                  required
+                  disabled={isLoading}
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700">Teléfono</label>
+                <input
+                  type="tel"
+                  className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2"
+                  value={registerData.telefono}
+                  onChange={(e) => setRegisterData({...registerData, telefono: e.target.value})}
+                  required
+                  disabled={isLoading}
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700">Correo electrónico</label>
+                <input
+                  type="email"
+                  className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2"
+                  value={registerData.email}
+                  onChange={(e) => setRegisterData({...registerData, email: e.target.value})}
+                  required
+                  disabled={isLoading}
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700">Número DNI o Pasaporte</label>
+                <input
+                  type="text"
+                  className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2"
+                  value={registerData.dni}
+                  onChange={(e) => setRegisterData({...registerData, dni: e.target.value})}
+                  required
+                  disabled={isLoading}
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700">País</label>
+                <select 
+                  className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2"
+                  value={registerData.pais}
+                  onChange={(e) => setRegisterData({...registerData, pais: e.target.value})}
+                  required
+                  disabled={isLoading}
+                >
+                  <option value="">Seleccionar país</option>
+                  <option value="México">México</option>
+                  <option value="Colombia">Colombia</option>
+                  <option value="España">España</option>
+                  <option value="Argentina">Argentina</option>
+                  <option value="Perú">Perú</option>
+                  <option value="Venezuela">Venezuela</option>
+                  <option value="Chile">Chile</option>
+                  <option value="Guatemala">Guatemala</option>
+                  <option value="Ecuador">Ecuador</option>
+                  <option value="Bolivia">Bolivia</option>
+                  <option value="Cuba">Cuba</option>
+                  <option value="República Dominicana">República Dominicana</option>
+                  <option value="Honduras">Honduras</option>
+                  <option value="Paraguay">Paraguay</option>
+                  <option value="Nicaragua">Nicaragua</option>
+                  <option value="El Salvador">El Salvador</option>
+                  <option value="Costa Rica">Costa Rica</option>
+                  <option value="Panamá">Panamá</option>
+                  <option value="Uruguay">Uruguay</option>
+                  <option value="Puerto Rico">Puerto Rico</option>
+                  <option value="Francia">Francia</option>
+                  <option value="Italia">Italia</option>
+                  <option value="Portugal">Portugal</option>
+                  <option value="Eslovenia">Eslovenia</option>
+                  <option value="Estonia">Estonia</option>
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700">Ciudad</label>
+                <input
+                  type="text"
+                  className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2"
+                  value={registerData.ciudad}
+                  onChange={(e) => setRegisterData({...registerData, ciudad: e.target.value})}
+                  required
+                  disabled={isLoading}
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700">Código Postal</label>
+                <input
+                  type="text"
+                  className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2"
+                  value={registerData.codigoPostal}
+                  onChange={(e) => setRegisterData({...registerData, codigoPostal: e.target.value})}
+                  required
+                  disabled={isLoading}
+                />
+              </div>
+              <div className="md:col-span-2">
+                <label className="block text-sm font-medium text-gray-700">Domicilio</label>
+                <input
+                  type="text"
+                  className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2"
+                  value={registerData.domicilio}
+                  onChange={(e) => setRegisterData({...registerData, domicilio: e.target.value})}
+                  required
+                  disabled={isLoading}
+                />
+              </div>
+              <div className="md:col-span-2">
+                <label className="block text-sm font-medium text-gray-700">Descargar DNI o Pasaporte</label>
+                <input
+                  type="file"
+                  accept=".pdf,.jpg,.jpeg,.png"
+                  className="mt-1 block w-full"
+                  required
+                  disabled={isLoading}
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700">Contraseña</label>
+                <input
+                  type="password"
+                  className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2"
+                  value={registerData.password}
+                  onChange={(e) => setRegisterData({...registerData, password: e.target.value})}
+                  required
+                  disabled={isLoading}
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700">Confirmación de contraseña</label>
+                <input
+                  type="password"
+                  className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2"
+                  value={registerData.confirmPassword}
+                  onChange={(e) => setRegisterData({...registerData, confirmPassword: e.target.value})}
+                  required
+                  disabled={isLoading}
+                />
+              </div>
+            </div>
+            <button
+              type="submit"
+              disabled={isLoading}
+              className={`w-full py-2 px-4 rounded-md ${
+                isLoading 
+                ? 'bg-gray-400 cursor-not-allowed' 
+                : 'bg-blue-600 hover:bg-blue-700 text-white'
+              }`}
+            >
+              {isLoading ? (
+                <div className="flex items-center justify-center">
+                  <svg className="animate-spin h-5 w-5 mr-3" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"/>
+                  </svg>
+                  Procesando...
+                </div>
+              ) : (
+                'Registrarse'
+              )}
+            </button>
+          </form>
+        </div>
+      );
+    }
 
     if (currentPage === 'verification') {
       return (
