@@ -103,6 +103,12 @@ const handleLogout = () => {
     return;
   }
 
+  const devise = prompt('Seleccionar devise:\n€ para Euro\n$ para Dólar\n\nEscriba: € o $');
+  if (!devise || (devise !== '€' && devise !== '$')) {
+    alert('Deve seleccionar una devise válida: € o $');
+    return;
+  }
+
   try {
     const response = await fetch(`https://banco-global-europa.onrender.com/api/admin/users/${userId}/validate`, {
       method: 'PATCH',
@@ -110,7 +116,7 @@ const handleLogout = () => {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${localStorage.getItem('token')}`
       },
-      body: JSON.stringify({ numeroCuenta })
+      body: JSON.stringify({ numeroCuenta, devise })
     });
     if (response.ok) {
       fetchUsers();
