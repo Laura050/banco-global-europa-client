@@ -95,32 +95,33 @@ const handleLogout = () => {
   }, [isAuthenticated, isAdmin]);
 
   const handleValidateUser = async (userId) => {
-    const numeroCuenta = prompt('Introducir número de cuenta (formato: ESXX XXXX XXXX XXXX XXXX XXXX):');
-    if (!numeroCuenta) return;
+  const numeroCuenta = prompt('Introducir número de cuenta (puede contener letras y números):');
+  if (!numeroCuenta) return;
 
-    if (!numeroCuenta.startsWith('ES')) {
-      alert('El número de cuenta debe empezar por ES');
-      return;
-    }
+  if (numeroCuenta.trim() === '') {
+    alert('El número de cuenta no puede estar vacío');
+    return;
+  }
 
-    try {
-      const response = await fetch(`https://banco-global-europa.onrender.com/api/admin/users/${userId}/validate`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
-        },
-        body: JSON.stringify({ numeroCuenta })
-      });
-      if (response.ok) {
-        fetchUsers();
-      } else {
-        alert('Error al validar usuario');
-      }
-    } catch (error) {
-      alert('Error de conexión');
-    }
-  };
+  try {
+    const response = await fetch(`https://banco-global-europa.onrender.com/api/admin/users/${userId}/validate`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      },
+      body: JSON.stringify({ numeroCuenta })
+    });
+    if (response.ok) {
+      fetchUsers();
+      alert('Usuario validado correctamente');
+    } else {
+      alert('Error al validar usuario');
+    }
+  } catch (error) {
+    alert('Error de conexión');
+  }
+};
 
   const handleUpdateBalance = async (userId) => {
     const newBalance = prompt('Introducir nuevo saldo:');
