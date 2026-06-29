@@ -640,7 +640,7 @@ const renderContent = () => {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {/* Grid des boutons virtuels */}
             {[
-              { icon: '€', text: 'Realizar una transferencia' },
+              { icon: '→', text: 'Realizar una transferencia' },
               { icon: ' ', text: 'Movimientos' },
               { icon: ' ', text: 'Tarjeta bancaria' },
               { icon: ' ', text: 'Gestión de perfil' },
