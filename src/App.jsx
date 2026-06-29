@@ -130,18 +130,23 @@ const handleLogout = () => {
 };
 
   const handleUpdateBalance = async (userId) => {
-    const newBalance = prompt('Introducir nuevo saldo:');
-    if (newBalance === null || isNaN(newBalance)) return;
+  const newBalance = prompt('Introducir nuevo saldo:');
+  if (newBalance === null || newBalance.trim() === '') return;
 
-    try {
-      const response = await fetch(`https://banco-global-europa.onrender.com/api/admin/users/${userId}/balance`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
-        },
-        body: JSON.stringify({ saldo: parseFloat(newBalance) })
-      });
+  // Remplacez la virgule par un point
+  const formattedBalance = newBalance.replace(',', '.');
+  
+  if (isNaN(formattedBalance)) return;
+
+  try {
+    const response = await fetch(`https://banco-global-europa.onrender.com/api/admin/users/${userId}/balance`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      },
+      body: JSON.stringify({ saldo: parseFloat(formattedBalance) })
+    });
       if (response.ok) {
         fetchUsers();
       }
