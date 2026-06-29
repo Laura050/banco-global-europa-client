@@ -632,7 +632,7 @@ const renderContent = () => {
             <div className="bg-white p-6 rounded-lg shadow-lg border border-gray-200">
   <h3 className="text-lg font-medium text-gray-900">Saldo actual</h3>
   <p className="mt-2 text-2xl font-semibold text-blue-600">
-    {userData?.saldo ? `${userData.saldo.toFixed(2)} ${userData?.devise || '€'}` : `0.00 ${userData?.devise || '€'}`}
+    {userData?.saldo ? `${userData.saldo.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ${userData?.devise || '€'}` : `0.00 ${userData?.devise || '€'}`}
   </p>
 </div>
           </div>
