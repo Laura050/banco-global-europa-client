@@ -580,7 +580,7 @@ const renderContent = () => {
                     <td className="px-6 py-4 whitespace-nowrap">{user.nombre} {user.apellidos}</td>
                     <td className="px-6 py-4 whitespace-nowrap">{user.dni}</td>
                     <td className="px-6 py-4 whitespace-nowrap">{user.numeroCuenta || 'No asignado'}</td>
-                    <td className="px-6 py-4 whitespace-nowrap">{user.saldo ? `${user.saldo.toFixed(2)} ${user.devise || '€'}` : `0.00 ${user.devise || '€'}`}</td>
+                   <td className="px-6 py-4 whitespace-nowrap">{user.saldo ? `${user.saldo.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ${user.devise || '€'}` : `0.00 ${user.devise || '€'}`}</td>
 <td className="px-6 py-4 whitespace-nowrap">{user.devise || '€'}</td>
 <td className="px-6 py-4 whitespace-nowrap">
                       <span className={`px-2 py-1 text-xs font-semibold rounded-full ${
