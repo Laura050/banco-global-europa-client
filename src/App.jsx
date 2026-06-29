@@ -134,7 +134,7 @@ const handleLogout = () => {
   if (newBalance === null || newBalance.trim() === '') return;
 
   // Remplacez la virgule par un point
-  const formattedBalance = newBalance.replace(',', '.');
+ const formattedBalance = newBalance.replace(/,/g, '');
   
   if (isNaN(formattedBalance)) return;
 
